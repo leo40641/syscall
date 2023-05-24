@@ -1,4 +1,4 @@
-package com.example.syscall
+package com.example.syscall.core
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -8,7 +8,7 @@ import android.hardware.usb.UsbManager
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
 
-class Protocol {
+open class Protocol {
     /*Variable de Control de Flujo*/
     var idBell:Long = 0x00
 
@@ -54,7 +54,12 @@ class Protocol {
             append("com.android.example.USB_PERMISSION")
         }
         val permissionIntent =
-            PendingIntent.getBroadcast(context, 0, Intent(actionUsbPermission), 0)
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                Intent(actionUsbPermission),
+                PendingIntent.FLAG_IMMUTABLE
+            )
         if (connection == null) {
             manager.requestPermission(driver.device, permissionIntent)
             println("No se puedo conectar")
