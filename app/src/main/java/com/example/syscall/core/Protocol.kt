@@ -11,6 +11,7 @@ import com.hoho.android.usbserial.driver.UsbSerialProber
 open class Protocol {
     /*Variable de Control de Flujo*/
     var idBell:Long = 0x00
+    var calloption = 0
 
     /*Constantes Tx*/
     val bufferAck = arrayOf(0x02, 0x01, 0x00, 0x08, 0xC5, 0x01, 0x00, 0x2F)
@@ -115,12 +116,19 @@ open class Protocol {
         return csum == buffer[range]
     }
 
+    fun cleanCall(){
+        idBell = 0
+        calloption = 0
+    }
+
     fun listenSyscall(): Boolean{
         if (rxControl == rxFree){
             readPort()
             if ((rxControl == rxWithData) && (checkChecksum(rxBuffer, rxBufferSize))){
                 when ((rxBuffer[4] shl 8) or rxBuffer[5]){
                     Syscall.CONNECTIONCHECK.data -> {
+                        idBell = 0x01
+                        calloption = 0x01
                         writePort(bufferAck)
                         rxControl = rxFree
                         return true
@@ -128,6 +136,7 @@ open class Protocol {
 
                     Syscall.MSGBELL.data -> {
                         idBell = (((rxBuffer[10] shl 24) or (rxBuffer[11] shl 16) or (rxBuffer[12] shl 8) or rxBuffer[13]).toLong()) and 0xFFFFFFFF
+                        calloption = rxBuffer[14]
                         writePort(bufferAck2)
                         rxControl = rxFree
                         return true

@@ -20,6 +20,10 @@ class MainActivity : ComponentActivity() {
         val manager = getSystemService(Context.USB_SERVICE) as UsbManager
         callViewModel.pollingUsb(this, manager)
 
+        callViewModel.callModel.observe(this, Observer { currentCall ->
+            println(currentCall.idBell)
+            println(currentCall.callOption)
+        })
 
         println("Aqui termino el codigo")
     }
