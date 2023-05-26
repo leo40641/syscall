@@ -18,6 +18,7 @@ class CallViewModel : ViewModel() {
     val callModel = MutableLiveData<CallModel>()
     private val usbPort = Protocol()
 
+    @SuppressLint("SuspiciousIndentation")
     fun pollingUsb(context: Context, usbManager: UsbManager){
         usbPort.connect(context, usbManager)
         viewModelScope.launch {
@@ -25,6 +26,7 @@ class CallViewModel : ViewModel() {
                 while (!withContext(Dispatchers.IO) { usbPort.listenSyscall() })
                 if(usbPort.idBell > 0) {
                     callModel.postValue(CallModel(idBell = usbPort.idBell, callOption = usbPort.calloption))
+                    val callReceiver = CallReceiver.dataBellReceiver(CallModel(idBell = usbPort.idBell, callOption = usbPort.calloption))
                     usbPort.cleanCall()
                 }
             }

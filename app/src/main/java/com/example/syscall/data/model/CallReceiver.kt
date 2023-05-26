@@ -1,7 +1,9 @@
 package com.example.syscall.data.model
 
 class CallReceiver {
-    fun dataBellReceiver(callModel: CallModel){
-
+    companion object{
+        fun dataBellReceiver(callModel: CallModel){
+            val a = 9
+        }
     }
 }
