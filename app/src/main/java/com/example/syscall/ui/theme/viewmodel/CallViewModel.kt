@@ -10,14 +10,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.syscall.core.Protocol
 import com.example.syscall.data.model.CallModel
 import com.example.syscall.data.model.CallReceiver
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CallViewModel : ViewModel() {
+@HiltViewModel
+class CallViewModel @Inject constructor(private val usbPort: Protocol): ViewModel() {
     val callModel = MutableLiveData<CallModel>()
-    private val usbPort = Protocol()
-
     @SuppressLint("SuspiciousIndentation")
     fun pollingUsb(context: Context, usbManager: UsbManager){
         usbPort.connect(context, usbManager)

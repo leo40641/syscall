@@ -7,8 +7,9 @@ import android.content.Intent
 import android.hardware.usb.UsbManager
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
+import javax.inject.Inject
 
-open class Protocol {
+open class Protocol @Inject constructor() {
     /*Variable de Control de Flujo*/
     var idBell:Long = 0x00
     var calloption = 0
