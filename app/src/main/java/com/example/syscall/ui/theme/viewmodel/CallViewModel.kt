@@ -5,7 +5,6 @@ import android.content.Context
 import android.hardware.usb.UsbManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.syscall.core.Protocol
 import com.example.syscall.data.model.CallModel
