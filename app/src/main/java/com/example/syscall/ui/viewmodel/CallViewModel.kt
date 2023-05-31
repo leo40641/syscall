@@ -1,4 +1,4 @@
-package com.example.syscall.ui.theme.viewmodel
+package com.example.syscall.ui.viewmodel
 
 import android.annotation.SuppressLint
 import android.content.Context
